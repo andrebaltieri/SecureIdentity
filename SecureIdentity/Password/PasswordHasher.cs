@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
+using SecureIdentity.Password.Exceptions;
 
 namespace SecureIdentity.Password
 {
@@ -13,6 +14,9 @@ namespace SecureIdentity.Password
             int iterations = 10000,
             char splitChar = '.')
         {
+            if (string.IsNullOrEmpty(password))
+                throw new InvalidPasswordException("Password should not be null or empty");
+
             using var algorithm = new Rfc2898DeriveBytes(
                 password,
                 saltSize,
