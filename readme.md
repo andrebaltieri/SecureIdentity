@@ -1,6 +1,10 @@
 # How to use
-
 SecureIdentity current provides only password generation and hashing. More features will be added later.
+
+## Install
+```
+dotnet add package SecureIdentity
+```
 
 ## Strong password generator
 You can use `PasswordGenerator.Generate` method to generate strong passwords. By default it will generate a 16 characters long password including special chars.
