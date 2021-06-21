@@ -5,20 +5,24 @@ namespace SecureIdentity.Password
 {
     public static class PasswordGenerator
     {
+        private const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        private const string special = "!@#$%ˆ&*(){}[];";
+
         public static string Generate(
             short length = 16,
             bool includeSpecialChars = true,
             bool upperCase = false)
         {
-            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            const string special = "!@#$%ˆ&*(){}[];";
             var chars = includeSpecialChars ? (valid + special) : valid;
-            var res = new StringBuilder();
+            var startRandom = upperCase ? 26 : 0;
+            var index = 0;
+            var res = new char[length];
             var rnd = new Random();
-            while (0 < length--)
-                res.Append(chars[rnd.Next(chars.Length)]);
 
-            return upperCase ? res.ToString().ToUpper() : res.ToString();
+            while (index < length)
+                res[index++] = chars[rnd.Next(startRandom, chars.Length)];
+
+            return new String(res);
         }
     }
 }
