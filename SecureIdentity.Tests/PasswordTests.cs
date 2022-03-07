@@ -62,5 +62,17 @@ namespace SecureIdentity.Tests
             var result = PasswordHasher.Verify(passHash, password);
             Assert.IsTrue(result);
         }
+
+        [TestMethod("Should verify password hash")]
+        [DataRow("1")]
+        [DataRow("12345")]
+        [DataRow("bQg,g%;7LC9mvbPK")]
+        [DataRow("Z`byj/nbJ8.Sc5@K4rx>ygFhS")]
+        public void ShouldGenerateVerifyPasswordHashWithPrivateKey(string password)
+        {
+            var passHash = PasswordHasher.Hash(password, privateKey: "nˆNuj8bu");
+            var result = PasswordHasher.Verify(passHash, password, privateKey: "nˆNuj8bu");
+            Assert.IsTrue(result);
+        }
     }
 }

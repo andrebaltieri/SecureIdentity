@@ -12,10 +12,13 @@ namespace SecureIdentity.Password
             short saltSize = 16,
             short keySize = 32,
             int iterations = 10000,
-            char splitChar = '.')
+            char splitChar = '.',
+            string privateKey = "")
         {
             if (string.IsNullOrEmpty(password))
                 throw new InvalidPasswordException("Password should not be null or empty");
+
+            password += privateKey;
 
             using var algorithm = new Rfc2898DeriveBytes(
                 password,
@@ -33,8 +36,11 @@ namespace SecureIdentity.Password
             string password,
             short keySize = 32,
             int iterations = 10000,
-            char splitChar = '.')
+            char splitChar = '.',
+            string privateKey = "")
         {
+            password += privateKey;
+
             var parts = hash.Split(splitChar, 3);
             if (parts.Length != 3)
                 return false;
