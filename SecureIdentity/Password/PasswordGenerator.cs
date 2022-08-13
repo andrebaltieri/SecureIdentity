@@ -1,27 +1,31 @@
-﻿using System;
+﻿namespace SecureIdentity.Password;
 
-namespace SecureIdentity.Password
+public static class PasswordGenerator
 {
-    public static class PasswordGenerator
+    private const string Valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    private const string Special = "!@#$%ˆ&*(){}[];";
+
+    /// <summary>
+    /// Generates a strong password
+    /// </summary>
+    /// <param name="length"></param>
+    /// <param name="includeSpecialChars"></param>
+    /// <param name="upperCase"></param>
+    /// <returns></returns>
+    public static string Generate(
+        short length = 16,
+        bool includeSpecialChars = true,
+        bool upperCase = false)
     {
-        private const string Valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        private const string Special = "!@#$%ˆ&*(){}[];";
+        var chars = includeSpecialChars ? (Valid + Special) : Valid;
+        var startRandom = upperCase ? 26 : 0;
+        var index = 0;
+        var res = new char[length];
+        var rnd = new Random();
 
-        public static string Generate(
-            short length = 16,
-            bool includeSpecialChars = true,
-            bool upperCase = false)
-        {
-            var chars = includeSpecialChars ? (Valid + Special) : Valid;
-            var startRandom = upperCase ? 26 : 0;
-            var index = 0;
-            var res = new char[length];
-            var rnd = new Random();
+        while (index < length)
+            res[index++] = chars[rnd.Next(startRandom, chars.Length)];
 
-            while (index < length)
-                res[index++] = chars[rnd.Next(startRandom, chars.Length)];
-
-            return new string(res);
-        }
+        return new string(res);
     }
 }
